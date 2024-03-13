@@ -2,7 +2,11 @@ import financialtransactions.TransactionManager;
 //import financialtransactions.Inflow;
 //import financialtransactions.Outflow;
 
+
 import storage.Storage;
+import financialtransactions.Inflow;
+import financialtransactions.Outflow;
+import financialtransactions.TransactionManager;
 import user.Authentication;
 import user.BaseUser;
 import userinteractions.UI;
