@@ -13,25 +13,39 @@ import userinterface.UI;
 public class Main {
     public static void main(String[] args) {
         Storage storage = new Storage("./data");
-        TransactionManager manager = new TransactionManager();
-        manager = storage.loadFile();
 
         UI ui = new UI();
-        ui.printMessage("Welcome. In order to login, type your command in the format:\nlogin u/USERNAME p/PASSWORD");
+        ui.printMessage("Welcome. Please login with your username and password.");
         
         Parser parser = new Parser();
         BaseCommand baseCommand = null;
         String response = "";
+        
+        String username = "";
+        String pw = "";
+        Authentication auth;
+        boolean isLoggedIn = false;
+        while (!isLoggedIn) {
+            ui.printMessage("Username:");
+            username = ui.readInput();
+            try {
+                BaseUser tempUser = new BaseUser(username, ui);
+                auth = tempUser.getAuthentication();
 
-        BaseUser tempUser = new BaseUser("Bob", ui);
-        Authentication auth = tempUser.getAuthentication();
-        if (!auth.authenticate()) {
-            ui.printMessage("Authentication error");
-            ui.closeScanner();
-            return;
-        } else{
-            ui.printMessage("Password is correct. You are now logged in");
+                if (!auth.authenticate(username)) {
+                    ui.printMessage("Authentication error");
+                    ui.closeScanner();
+                } else {
+                    ui.printMessage("Password is correct. You are now logged in");
+                    pw = auth.getPassword();
+                    isLoggedIn = true;
+                }
+            } catch (Exception e) {
+                ui.printMessage(e.getMessage());
+            }
         }
+        
+        TransactionManager manager = storage.loadFile(username);
         do {
             String command = ui.readInput();
             try {
@@ -41,7 +55,7 @@ public class Main {
             } catch (Exception e) {
                 ui.printMessage(e.getMessage());
             }
-            storage.saveFile(manager);
+            storage.saveFile(manager, username, pw);
         } while (!baseCommand.isExit());
         ui.closeScanner();
         /*

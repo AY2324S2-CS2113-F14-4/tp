@@ -17,6 +17,10 @@ public class Authentication {
     public String getUsername() {
         return this.username;
     }
+    
+    public String getPassword() {
+        return this.password;
+    }
 
     public Boolean checkPassword(String username, String password) {
         return this.password.equals(password) && this.username.equals(username);
@@ -30,12 +34,14 @@ public class Authentication {
         return true;
     }
 
-    public Boolean authenticate(){
-        System.out.println("username: ");
-        String inputUsername = this.ui.readInput();
-        System.out.println("password: ");
+    public Boolean authenticate(String inputUsername) throws Exception {
+        System.out.println("Password: ");
         String inputPassword = this.ui.readInput();
-        return this.checkPassword(inputUsername, inputPassword);
+        boolean result = this.checkPassword(inputUsername, inputPassword);
+        if (!result) {
+            throw new Exception("Incorrect password");
+        }
+        return result;
     }
 
 

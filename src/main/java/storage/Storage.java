@@ -14,13 +14,15 @@ public class Storage {
     private final String filePath;
     public Storage(String filePath) {
         this.filePath = filePath;
+        createFileDir();
     }
 
-    public TransactionManager loadFile() {
-        File f = new File(filePath + "/data.txt");
+    public TransactionManager loadFile(String username) {
+        File f = new File(filePath + String.format("/%s.txt", username));
         TransactionManager manager = new TransactionManager();
         try {
             Scanner sc = new Scanner(f);
+            sc.nextLine();
             while (sc.hasNext()) {
                 String[] transactionInfo = sc.nextLine().split("\\|");
                 double amount = Double.parseDouble(transactionInfo[1]);
@@ -36,21 +38,34 @@ public class Storage {
             }
             sc.close();
         } catch (FileNotFoundException e) {
-            createFileDir();
+            System.out.println("No previous transactions.");
         }
         return manager;
+    }
+    
+    public String getPassword(String username) {
+        File f = new File(filePath + String.format("/%s.txt", username));
+        String pw;
+        try {
+            Scanner sc = new Scanner(f);
+            pw =  sc.nextLine();
+            sc.close();
+        } catch (FileNotFoundException e) {
+            pw = null;
+        }
+        return pw;
     }
 
     private void createFileDir() {
         File f = new File(filePath);
-        if (!f.mkdir()) {
-            System.out.println("create file failed");
-        }
+        f.mkdir();
     }
 
-    public void saveFile(TransactionManager tm) {
+    public void saveFile(TransactionManager tm, String username, String password) {
         try {
-            FileWriter fw = new FileWriter(filePath + "/data.txt");
+            FileWriter fw = new FileWriter(filePath + String.format("/%s.txt",username));
+            fw.write(password);
+            fw.write("\n");
             fw.write(tm.toSave());
             fw.close();
         } catch (IOException e) {
