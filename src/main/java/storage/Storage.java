@@ -25,6 +25,7 @@ public class Storage {
             sc.nextLine();
             while (sc.hasNext()) {
                 String[] transactionInfo = sc.nextLine().split("\\|");
+                assert transactionInfo.length == 3 : "There should always be DESCRIPTION|AMOUNT|TIME.";
                 double amount = Double.parseDouble(transactionInfo[1]);
                 if (!transactionInfo[1].startsWith("-")) {
                     Inflow inflow = new Inflow(transactionInfo[0], amount, transactionInfo[2]);
