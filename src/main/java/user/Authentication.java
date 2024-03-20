@@ -35,7 +35,7 @@ public class Authentication {
     }
 
     public Boolean authenticate(String inputUsername) throws Exception {
-        System.out.println("Password: ");
+        System.out.println("Password:");
         String inputPassword = this.ui.readInput();
         boolean result = this.checkPassword(inputUsername, inputPassword);
         if (!result) {

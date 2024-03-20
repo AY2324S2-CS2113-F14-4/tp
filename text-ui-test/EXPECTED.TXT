@@ -1,7 +1,6 @@
-Welcome. In order to login, type your command in the format:
-login u/USERNAME p/PASSWORD
-username: 
-password: 
+Welcome. Please login with your username and password.
+Username:
+Password:
 Password is correct. You are now logged in
 Ok. Added inflow
 Ok. Added outflow
