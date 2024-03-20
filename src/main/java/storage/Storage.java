@@ -52,7 +52,7 @@ public class Storage {
             pw =  sc.nextLine();
             sc.close();
         } catch (FileNotFoundException e) {
-            System.out.println("oops");
+            System.out.println(username);
             pw = null;
         }
         return pw;
