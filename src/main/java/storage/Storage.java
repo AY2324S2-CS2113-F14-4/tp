@@ -52,7 +52,6 @@ public class Storage {
             pw =  sc.nextLine();
             sc.close();
         } catch (FileNotFoundException e) {
-            System.out.println(filePath + String.format("/Bob.txt", username));
             pw = null;
         }
         return pw;
